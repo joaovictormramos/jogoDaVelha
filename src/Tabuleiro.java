@@ -41,6 +41,7 @@ public class Tabuleiro {
 	}
 
 	public String verificaGanhador() {
+		int cont = 0;
 		for (int i = 0; i < 3; i++) {
 			if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != " ") {
 				mostraTabuleiro();
@@ -49,6 +50,11 @@ public class Tabuleiro {
 			if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != " ") {
 				mostraTabuleiro();
 				return tabuleiro[0][i];
+			}
+			for (int j = 0; j < 3; j++) {
+				if (!tabuleiro[i][j].equals(" ")) {
+					cont++;
+				}
 			}
 		}
 		if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != " ") {
@@ -59,25 +65,18 @@ public class Tabuleiro {
 			mostraTabuleiro();
 			return tabuleiro[0][2];
 		}
-		return null;
-	}
-
-	public boolean velha() {
-		int cont = 0;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; i++) {
-				if (cont == 9) {
-					JOptionPane.showConfirmDialog(null, "DEU VELHA");
-					return true;
-				}
-			}
+		if (cont == 9) {
+			mostraTabuleiro();
+			return "DEU VELHA";
 		}
-		return false;
+		return null;
 	}
 
 	public void ganhador() {
 		if (verificaGanhador() != null) {
 			JOptionPane.showConfirmDialog(null, verificaGanhador().toUpperCase() + " VENCEU.");
+		} else if (verificaGanhador() == "DEU VELHA") {
+			JOptionPane.showConfirmDialog(null, "DEU VELHA");
 		}
 	}
 

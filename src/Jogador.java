@@ -4,7 +4,7 @@ public class Jogador {
 	private String simbolo;
 
 	public Jogador() {
-		simbolo = JOptionPane.showInputDialog("Informe o símbolo (X|O): ");
+		simbolo = JOptionPane.showInputDialog("Informe o símbolo (X ou O): ");
 	}
 
 	public String getSimbolo() {
