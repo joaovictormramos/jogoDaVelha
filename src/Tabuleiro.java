@@ -2,6 +2,8 @@ import javax.swing.JOptionPane;
 
 public class Tabuleiro {
 	private String[][] tabuleiro = new String[3][3];
+	private Jogador jogador;
+	private Cpu cpu;
 
 	public Tabuleiro() {
 		for (int i = 0; i < 3; i++) {
@@ -9,70 +11,63 @@ public class Tabuleiro {
 				tabuleiro[i][j] = " ";
 			}
 		}
+		jogador = new Jogador();
+		cpu = new Cpu();
+		if (jogador.getSimbolo().equalsIgnoreCase("X")) {
+			String simboloCpu = "O";
+			cpu.setCpu(simboloCpu);
+		} else {
+			String simboloCpu = "X";
+			cpu.setCpu(simboloCpu);
+		}
 	}
 
-	public void jogadaJogador(int[] posicao, Jogador jogador) {
-		if (tabuleiro[posicao[0]][posicao[1]] == " ") {
-			tabuleiro[posicao[0]][posicao[1]] = jogador.getSimbolo();
-		} else {
+	public void jogadaJogador() {
+		int[] posicao = jogador.posicaoJogador();
+		while (tabuleiro[posicao[0]][posicao[1]] != " ") {
 			posicao = jogador.posicaoJogador();
-			while (tabuleiro[posicao[0]][posicao[1]].equalsIgnoreCase("x")
-					|| tabuleiro[posicao[0]][posicao[1]].equalsIgnoreCase("o")) {
-				int[] novaPosicao = jogador.posicaoJogador();
-				tabuleiro[novaPosicao[0]][novaPosicao[1]] = jogador.getSimbolo();
-			}
 		}
+		tabuleiro[posicao[0]][posicao[1]] = jogador.getSimbolo();
 	}
 
-	public void jogadaCpu(int[] posicao, Cpu cpu) {
-		if (tabuleiro[posicao[0]][posicao[1]] == " ") {
+	public void jogadaCpu() {
+		if (!verificaGanhador()) {
+			int[] posicao = cpu.posicaoCpu();
+			while (tabuleiro[posicao[0]][posicao[1]] != " ") {
+				posicao = cpu.posicaoCpu();
+			}
 			tabuleiro[posicao[0]][posicao[1]] = cpu.getCpu();
-		} else {
-			while (tabuleiro[posicao[0]][posicao[1]].equalsIgnoreCase("x")
-					|| tabuleiro[posicao[0]][posicao[1]].equalsIgnoreCase("o")) {
-				int[] novaPosicao = cpu.posicaoCpu();
-				tabuleiro[novaPosicao[0]][novaPosicao[1]] = cpu.getCpu();
-			}
 		}
 	}
 
-	public String verificaGanhador() {
-		String ganhador = null;
-		if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != " ") {
-			JOptionPane.showMessageDialog(null, tabuleiro[0][0] + " ganhador.");
-			return ganhador = tabuleiro[0][0];
-		} else if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != " ") {
-			JOptionPane.showMessageDialog(null, tabuleiro[2][2] + " ganhador.");
-			return ganhador = tabuleiro[0][2];
-		}
+	public boolean verificaGanhador() {
 		for (int i = 0; i < 3; i++) {
-			int j = 0;
-			if (tabuleiro[i][j] == tabuleiro[i][j + 1] && tabuleiro[i][j + 1] == tabuleiro[i][j + 2]
-					&& tabuleiro[i][j] != " ") {
-				JOptionPane.showMessageDialog(null, tabuleiro[i][j] + " ganhador.");
-				return ganhador = tabuleiro[i][j];
+			if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != " ") {
+				JOptionPane.showConfirmDialog(null, tabuleiro[i][0] + " VENCEU.");
+				return true;
+			}
+			if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != " ") {
+				JOptionPane.showConfirmDialog(null, tabuleiro[0][i] + " VENCEU.");
+				return true;
 			}
 		}
-		for (int j = 0; j < 3; j++) {
-			int i = 0;
-			if (tabuleiro[j][i] == tabuleiro[j][i + 1] && tabuleiro[j][i + 1] == tabuleiro[j][i + 2]
-					&& tabuleiro[j][i] != " ") {
-				JOptionPane.showMessageDialog(null, tabuleiro[j][i] + " ganhador.");
-				return ganhador = tabuleiro[j][i];
-			}
+		if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != " ") {
+			JOptionPane.showConfirmDialog(null, tabuleiro[0][0] + " VENCEU.");
+			return true;
 		}
-		return null;
+		if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != " ") {
+			JOptionPane.showConfirmDialog(null, tabuleiro[0][2] + " VENCEU.");
+			return true;
+		}
+		return false;
 	}
 
 	public boolean velha() {
 		int cont = 0;
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (tabuleiro[i][j] != " ") {
-					cont++;
-					if (cont == 9) {
-						return true;
-					}
+			for (int j = 0; j < 3; i++) {
+				if (cont == 9) {
+					return true;
 				}
 			}
 		}

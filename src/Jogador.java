@@ -3,8 +3,8 @@ import javax.swing.JOptionPane;
 public class Jogador {
 	private String simbolo;
 
-	public Jogador(String simbolo) {
-		this.simbolo = simbolo;
+	public Jogador() {
+		simbolo = JOptionPane.showInputDialog("Informe o símbolo (X|O): ");
 	}
 
 	public String getSimbolo() {
