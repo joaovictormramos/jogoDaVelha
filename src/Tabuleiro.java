@@ -31,7 +31,7 @@ public class Tabuleiro {
 	}
 
 	public void jogadaCpu() {
-		if (!verificaGanhador()) {
+		if (verificaGanhador() == null) {
 			int[] posicao = cpu.posicaoCpu();
 			while (tabuleiro[posicao[0]][posicao[1]] != " ") {
 				posicao = cpu.posicaoCpu();
@@ -40,26 +40,26 @@ public class Tabuleiro {
 		}
 	}
 
-	public boolean verificaGanhador() {
+	public String verificaGanhador() {
 		for (int i = 0; i < 3; i++) {
 			if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != " ") {
 				mostraTabuleiro();
-				return true;
+				return tabuleiro[i][0];
 			}
 			if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != " ") {
 				mostraTabuleiro();
-				return true;
+				return tabuleiro[0][i];
 			}
 		}
 		if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != " ") {
 			mostraTabuleiro();
-			return true;
+			return tabuleiro[0][0];
 		}
 		if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != " ") {
 			mostraTabuleiro();
-			return true;
+			return tabuleiro[0][2];
 		}
-		return false;
+		return null;
 	}
 
 	public boolean velha() {
@@ -74,7 +74,13 @@ public class Tabuleiro {
 		}
 		return false;
 	}
-	//JOptionPane.showConfirmDialog(null, tabuleiro[0][i].toUpperCase() + " VENCEU.");
+
+	public void ganhador() {
+		if (verificaGanhador() != null) {
+			JOptionPane.showConfirmDialog(null, verificaGanhador().toUpperCase() + " VENCEU.");
+		}
+	}
+
 	public void mostraTabuleiro() {
 		for (int i = 0; i < 3; i++) {
 			if (i == 0) {
