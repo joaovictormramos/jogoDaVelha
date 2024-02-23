@@ -43,20 +43,20 @@ public class Tabuleiro {
 	public boolean verificaGanhador() {
 		for (int i = 0; i < 3; i++) {
 			if (tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2] && tabuleiro[i][0] != " ") {
-				JOptionPane.showConfirmDialog(null, tabuleiro[i][0] + " VENCEU.");
+				mostraTabuleiro();
 				return true;
 			}
 			if (tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i] && tabuleiro[0][i] != " ") {
-				JOptionPane.showConfirmDialog(null, tabuleiro[0][i] + " VENCEU.");
+				mostraTabuleiro();
 				return true;
 			}
 		}
 		if (tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2] && tabuleiro[0][0] != " ") {
-			JOptionPane.showConfirmDialog(null, tabuleiro[0][0] + " VENCEU.");
+			mostraTabuleiro();
 			return true;
 		}
 		if (tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0] && tabuleiro[0][2] != " ") {
-			JOptionPane.showConfirmDialog(null, tabuleiro[0][2] + " VENCEU.");
+			mostraTabuleiro();
 			return true;
 		}
 		return false;
@@ -67,13 +67,14 @@ public class Tabuleiro {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; i++) {
 				if (cont == 9) {
+					JOptionPane.showConfirmDialog(null, "DEU VELHA");
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
+	//JOptionPane.showConfirmDialog(null, tabuleiro[0][i].toUpperCase() + " VENCEU.");
 	public void mostraTabuleiro() {
 		for (int i = 0; i < 3; i++) {
 			if (i == 0) {
